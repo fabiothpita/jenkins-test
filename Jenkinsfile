@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+	environment {
+    	APP_NAME = 'helpdesk-api'
+    	APP_VERSION = "${BUILD_NUMBER}"
+    	DOCKER_IMAGE = "${APP_NAME}:${APP_VERSION}"
+	}
+
 	parameters {
 		choice(
 			name: 'DEPLOY_ENV',
@@ -38,6 +44,16 @@ pipeline {
 		
 		}
 
+
+		stage('Show Environment') {
+    		steps {
+        		echo "Application: ${env.APP_NAME}"
+        		echo "Version: ${env.APP_VERSION}"
+        		echo "Docker Image: ${env.DOCKER_IMAGE}"
+        		echo "Deploy Environment: ${params.DEPLOY_ENV}"
+    		}
+		}
+
         stage('Test') {
 			when {
 				expression {
@@ -57,7 +73,7 @@ pipeline {
             steps {
                 sh '''
                     docker build \
-                      -t helpdesk-api:latest .
+                      -t $DOCKER_IMAGE .
                 '''
             }
         }
@@ -80,7 +96,7 @@ pipeline {
 					docker run -d \
 						--name helpdesk-staging \
 						-p 127.0.0.1:8081:8081 \
-						helpdesk-api:latest
+						$DOCKER_IMAGE
 				
 				'''
 			}
@@ -102,7 +118,7 @@ pipeline {
 					docker run -d \
 					--name helpdesk-production \
 					-p 127.0.0.1:8082:8081 \
-					helpdesk-api:latest
+					$DOCKER_IMAGE
 				
 				 '''
 			}
