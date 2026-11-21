@@ -54,7 +54,8 @@ pipeline {
 			}
 		
 		}
-	},
+	}
+	
 	post {
         success {
             echo 'Deploy realizado com sucesso!'
