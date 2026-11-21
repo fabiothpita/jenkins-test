@@ -74,7 +74,7 @@ pipeline {
 
 			when {
 				expression {
-					params.DEPLOY_ENV == 'production',
+					params.DEPLOY_ENV == 'production'
 					params.RUN_TESTS == true
 				}
 			}
