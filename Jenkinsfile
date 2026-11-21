@@ -22,6 +22,22 @@ pipeline {
             }
         }
 
+
+		stage('Validate Parameters'){
+			steps {
+
+				script {
+
+					if(params.DEPLOY_ENV == 'production' && params.RUN_TESTS != true){
+						error('Production requires tests')
+					}
+
+				}
+
+			}
+		
+		}
+
         stage('Test') {
 			when {
 				expression {
