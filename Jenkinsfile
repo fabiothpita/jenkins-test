@@ -11,11 +11,11 @@ pipeline {
 		stage('Test') {
 			steps {
 				echo 'Testing...'
-				sh ''''
+				sh '''
 					docker build \ 
 					--target test \
 					-t helpdesk-api:test .
-				''''
+				'''
 			}
 		}
 		stage('Build') {
