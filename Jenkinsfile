@@ -50,7 +50,7 @@ pipeline {
 		stage('Deploy staging') {
 			when{
 				expression {
-					params.DEPLOY_ENV == 'staging'
+					params.DEPLOY_ENV == 'staging' &&
 					params.RUN_TESTS == true
 				}
 			}
@@ -59,7 +59,7 @@ pipeline {
 
 				sh '''
 				
-					docker rm -f helpesk-staging || true
+					docker rm -f helpdesk-staging || true
 					
 					docker run -d \
 						--name helpdesk-staging \
@@ -74,7 +74,7 @@ pipeline {
 
 			when {
 				expression {
-					params.DEPLOY_ENV == 'production'
+					params.DEPLOY_ENV == 'production' &&
 					params.RUN_TESTS == true
 				}
 			}
@@ -95,7 +95,7 @@ pipeline {
         stage('Smoke Test Staging') {
 			when {
 				expression {
-					params.DEPLOY_ENV == 'staging'
+					params.DEPLOY_ENV == 'staging' &&
 					params.RUN_TESTS == true
 				}
 			}
@@ -111,14 +111,15 @@ pipeline {
 		stage('Smoke Test Production') {
 			when {
 				expression {
-					params.DEPLOY_ENV == 'production'
+					params.DEPLOY_ENV == 'production' && 
 					params.RUN_TESTS == true
+
 				}
 			}
             steps {
                 sh '''
                     docker exec helpdesk-production \
-                      wget -qO- http://localhost:8082/health
+                      wget -qO- http://localhost:8081/health
                 '''
             }
         }
