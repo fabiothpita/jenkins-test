@@ -12,7 +12,7 @@ pipeline {
 			steps {
 				echo 'Testing...'
 				sh '''
-					docker build \ 
+					docker build \
 					--target test \
 					-t helpdesk-api:test .
 				'''
