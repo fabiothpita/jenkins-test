@@ -19,7 +19,14 @@ pipeline {
 			defaultValue: true,
 			description: 'Executar testes unitários?'
 		)
+
+		string(
+			name: 'IMAGE_VERSION',
+			defaultValue: '',
+			description: 'Versão Docker para deploy'
+		)
 	}
+	
 
     stages {
         stage('Checkout') {
